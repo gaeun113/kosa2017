@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+
+	<!-- Appenders -->
+	<appender name="console" class="org.apache.log4j.ConsoleAppender">
+		<param name="Target" value="System.out" />
+		<layout class="org.apache.log4j.PatternLayout">
+			<param name="ConversionPattern" value="%-5p: %c - %m%n" />
+		</layout>
+	</appender>
+	
+	<!-- Application Loggers -->
+	<logger name="com.coderby.myapp">
+		<level value="info" />
+	</logger>
+	
+	<!-- 3rdparty Loggers -->
+	<!-- 여기의 value을 warn으로 바꿈 -->
+	<!-- 종류 : fatal(서버 안돌아갈 정도) error(조취 권고) warn(에러 나올 수 있을만함) debug(평범한 디버깅) info(info이상으로 개발 때 진행) trace -->
+	<!-- 단계 별로 출력 레벨을 설정해놓음 -->
+	<!-- 해당 레벨 이하의 value라면 log가 뜨지 않음 -->
+	<logger name="org.springframework.core">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.beans">
+		<level value="info" />
+	</logger>
+	
+	<logger name="org.springframework.context">
+		<level value="info" />
+	</logger>
+
+	<logger name="org.springframework.web">
+		<level value="info" />
+	</logger>
+
+	<!-- Root Logger -->
+	<root>
+		<priority value="warn" />
+		<appender-ref ref="console" />
+	</root>
+	
+</log4j:configuration>

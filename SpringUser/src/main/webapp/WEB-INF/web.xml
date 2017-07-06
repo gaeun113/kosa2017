@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app version="2.5" xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd">
+
+	<!-- The definition of the Root Spring Container shared by all Servlets 
+		and Filters -->
+	<!-- 공통 컴포넌트 설정 파일 위치 설정 -->
+	<context-param>
+		<param-name>contextConfigLocation</param-name>
+		<!-- classpath:spring/application-config.xml이 교수님 & 여러 개발자들이 dafault로 쓰는 
+			방식 -->
+		<param-value>classpath:application-config.xml</param-value>
+	</context-param>
+
+	<!-- Creates the Spring Container shared by all Servlets and Filters -->
+	<listener>
+		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
+	</listener>
+
+	<!-- 순서가 큰 영향을 끼치는 것은 아니지만 필터 전에 리스너가 필터 다음에 서블렛이 있는 게 좋음 -->
+	<!-- 실질적인 작업 순서와 같이 해주는 것이 좋다! -->
+	<filter>
+		<filter-name>characterEncodingFilter</filter-name>
+		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
+		<init-param>
+			<!-- 우리가 사용하려는 인코딩 이름을 파라미터로 넣어줌 -->
+			<param-name>encoding</param-name>
+			<param-value>utf-8</param-value>
+		</init-param>
+	</filter>
+
+	<!-- 그리고 나서 필터와 우리의 url 사이트와 연결을 시켜준다! -->
+	<filter-mapping>
+		<filter-name>characterEncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+		<!-- /*로 해준다! -->
+	</filter-mapping>
+	<!-- 이 설정을 넣어준 뒤 update에 있는 디버깅 출력으로 출력해보면 -->
+	<!-- 한글이 잘 나오는 것을 알 수 있다 -->
+	<!-- (웹 상에서 한글을 인식 못받기 때문에 이클립스로 돌아오면 글씨가 깨진다!! 필터 꼭 필요함) -->
+	
+
+	<!-- Processes application requests -->
+	<servlet>
+		<servlet-name>appServlet</servlet-name>
+		<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
+		<init-param>
+			<param-name>contextConfigLocation</param-name>
+			<param-value>/WEB-INF/spring/appServlet/mvc-context.xml</param-value>
+		</init-param>
+		<load-on-startup>1</load-on-startup>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>appServlet</servlet-name>
+		<url-pattern>/</url-pattern>
+	</servlet-mapping>
+
+</web-app>
